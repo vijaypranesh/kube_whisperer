@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: oom-deployment
+  namespace: broken-apps
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: oom-stress
+  template:
+    metadata:
+      labels:
+        app: oom-stress
+    spec:
+      containers:
+      - name: stress
+        image: polinux/stress
+        command: ["stress"]
+        args: ["--vm", "1", "--vm-bytes", "50M", "--vm-hang", "1"]
+        resources:
+          requests:
+            memory: "64Mi"
+          limits:
+            memory: "128Mi"

@@ -1,0 +1,328 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: kube-whisperer-html
+data:
+  index.html: |
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Kube-Whisperer | Enterprise AI Agent</title>
+        <style>
+            @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap');
+            
+            :root {
+                --bg-color: #0b0f19;
+                --text-main: #e2e8f0;
+                --text-muted: #94a3b8;
+                --primary: #3b82f6;
+                --secondary: #8b5cf6;
+                --glass-bg: rgba(255, 255, 255, 0.05);
+                --glass-border: rgba(255, 255, 255, 0.1);
+            }
+
+            body, html {
+                margin: 0;
+                padding: 0;
+                font-family: 'Inter', sans-serif;
+                background-color: var(--bg-color);
+                color: var(--text-main);
+                overflow-x: hidden;
+                scroll-behavior: smooth;
+            }
+
+            /* Animated Background Gradients */
+            .bg-glow {
+                position: fixed;
+                width: 600px;
+                height: 600px;
+                background: radial-gradient(circle, rgba(59, 130, 246, 0.15) 0%, rgba(0, 0, 0, 0) 70%);
+                top: -200px;
+                left: -200px;
+                border-radius: 50%;
+                z-index: -1;
+                animation: float 10s infinite alternate ease-in-out;
+            }
+
+            .bg-glow-2 {
+                position: fixed;
+                width: 500px;
+                height: 500px;
+                background: radial-gradient(circle, rgba(139, 92, 246, 0.15) 0%, rgba(0, 0, 0, 0) 70%);
+                bottom: -100px;
+                right: -100px;
+                border-radius: 50%;
+                z-index: -1;
+                animation: float 8s infinite alternate-reverse ease-in-out;
+            }
+
+            @keyframes float {
+                0% { transform: translate(0, 0); }
+                100% { transform: translate(50px, 50px); }
+            }
+
+            header {
+                padding: 2rem 5%;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                border-bottom: 1px solid var(--glass-border);
+                backdrop-filter: blur(10px);
+                position: sticky;
+                top: 0;
+                z-index: 100;
+            }
+
+            .logo {
+                font-size: 1.5rem;
+                font-weight: 800;
+                background: linear-gradient(90deg, var(--primary), var(--secondary));
+                -webkit-background-clip: text;
+                -webkit-text-fill-color: transparent;
+                letter-spacing: -1px;
+            }
+
+            .hero {
+                min-height: 80vh;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                text-align: center;
+                padding: 0 5%;
+            }
+
+            .hero h1 {
+                font-size: 4rem;
+                font-weight: 800;
+                margin-bottom: 1rem;
+                line-height: 1.2;
+                opacity: 0;
+                transform: translateY(30px);
+                animation: fadeUp 1s forwards 0.2s;
+            }
+
+            .hero p {
+                font-size: 1.25rem;
+                color: var(--text-muted);
+                max-width: 600px;
+                margin-bottom: 2.5rem;
+                opacity: 0;
+                transform: translateY(30px);
+                animation: fadeUp 1s forwards 0.4s;
+            }
+
+            .btn {
+                padding: 1rem 2.5rem;
+                font-size: 1rem;
+                font-weight: 600;
+                color: white;
+                background: linear-gradient(90deg, var(--primary), var(--secondary));
+                border: none;
+                border-radius: 50px;
+                cursor: pointer;
+                transition: transform 0.3s, box-shadow 0.3s;
+                opacity: 0;
+                transform: translateY(30px);
+                animation: fadeUp 1s forwards 0.6s;
+            }
+
+            .btn:hover {
+                transform: translateY(-3px) scale(1.05);
+                box-shadow: 0 10px 25px rgba(59, 130, 246, 0.4);
+            }
+
+            .features {
+                display: grid;
+                grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+                gap: 2rem;
+                padding: 5rem 10%;
+            }
+
+            .feature-card {
+                background: var(--glass-bg);
+                border: 1px solid var(--glass-border);
+                border-radius: 20px;
+                padding: 2.5rem;
+                backdrop-filter: blur(10px);
+                transition: transform 0.3s, background 0.3s;
+                opacity: 0;
+                transform: translateY(40px);
+            }
+
+            .feature-card.visible {
+                animation: fadeUp 0.8s forwards;
+            }
+
+            .feature-card:hover {
+                transform: translateY(-10px);
+                background: rgba(255, 255, 255, 0.08);
+                border-color: rgba(255, 255, 255, 0.2);
+            }
+
+            .feature-icon {
+                font-size: 2.5rem;
+                margin-bottom: 1.5rem;
+            }
+
+            .feature-card h3 {
+                font-size: 1.5rem;
+                margin-top: 0;
+                margin-bottom: 1rem;
+            }
+
+            .feature-card p {
+                color: var(--text-muted);
+                line-height: 1.6;
+                margin: 0;
+            }
+
+            @keyframes fadeUp {
+                to {
+                    opacity: 1;
+                    transform: translateY(0);
+                }
+            }
+            
+            .code-block {
+                background: #000;
+                padding: 1.5rem;
+                border-radius: 15px;
+                border: 1px solid var(--glass-border);
+                font-family: monospace;
+                color: #10b981;
+                text-align: left;
+                margin-top: 3rem;
+                width: 100%;
+                max-width: 600px;
+                opacity: 0;
+                animation: fadeUp 1s forwards 0.8s;
+            }
+            
+            .typing {
+                overflow: hidden;
+                white-space: nowrap;
+                border-right: 2px solid #10b981;
+                animation: typing 3s steps(40, end), blink 0.75s step-end infinite;
+            }
+
+            @keyframes typing {
+                from { width: 0 }
+                to { width: 100% }
+            }
+            
+            @keyframes blink {
+                from, to { border-color: transparent }
+                50% { border-color: #10b981; }
+            }
+
+            footer {
+                text-align: center;
+                padding: 3rem;
+                border-top: 1px solid var(--glass-border);
+                color: var(--text-muted);
+                margin-top: 3rem;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="bg-glow"></div>
+        <div class="bg-glow-2"></div>
+
+        <header>
+            <div class="logo">Kube-Whisperer</div>
+            <nav>
+                <span style="color: var(--text-muted); font-size: 0.9rem;">Status: <span style="color: #10b981;">● Online</span></span>
+            </nav>
+        </header>
+
+        <section class="hero">
+            <h1>Autonomous Kubernetes<br>Triage & Management</h1>
+            <p>The AI Agent that lives in your cluster. Capable of diagnosing crashes, scaling deployments, viewing logs, and managing namespaces completely autonomously.</p>
+            <button class="btn">Deploy Agent</button>
+            
+            <div class="code-block">
+                <div class="typing">>_ kubectl get pods -n broken-apps<br>>_ Agent analyzing CrashLoopBackOff... Fixed.</div>
+            </div>
+        </section>
+
+        <section class="features" id="features">
+            <div class="feature-card">
+                <div class="feature-icon">🧠</div>
+                <h3>Intelligent Triage</h3>
+                <p>Automatically investigates failing pods, fetches container logs, and cross-references Kubernetes events to diagnose underlying issues without human intervention.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">⚡</div>
+                <h3>Self-Healing</h3>
+                <p>Empowered to scale deployments up or down, gracefully restart crashing workloads, and forcefully delete stuck pods to restore cluster health instantly.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-card-icon">🏗️</div>
+                <h3>Infrastructure as Conversation</h3>
+                <p>Chat with your cluster. Use natural language to deploy YAML files, provision entirely new namespaces, and spin up local clusters on the fly.</p>
+            </div>
+        </section>
+
+        <footer>
+            <p>© 2026 Kube-Whisperer AI. Built with MCP and Kubernetes.</p>
+        </footer>
+
+        <script>
+            // Intersection Observer for scroll animations
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                    }
+                });
+            }, { threshold: 0.1 });
+
+            document.querySelectorAll('.feature-card').forEach(card => {
+                observer.observe(card);
+            });
+        </script>
+    </body>
+    </html>
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kube-whisperer-web
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: kube-whisperer-web
+  template:
+    metadata:
+      labels:
+        app: kube-whisperer-web
+    spec:
+      containers:
+      - name: nginx
+        image: nginx:alpine
+        ports:
+        - containerPort: 80
+        volumeMounts:
+        - name: html-volume
+          mountPath: /usr/share/nginx/html
+      volumes:
+      - name: html-volume
+        configMap:
+          name: kube-whisperer-html
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: kube-whisperer-web-svc
+spec:
+  type: NodePort
+  selector:
+    app: kube-whisperer-web
+  ports:
+  - port: 80
+    targetPort: 80
+    nodePort: 30080

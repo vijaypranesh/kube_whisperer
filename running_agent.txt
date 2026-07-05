@@ -1,0 +1,3 @@
+cd /home/vijay/projects/Anti-Gravity/kube_whisperer
+.venv/bin/pip install -r requirements.txt
+.venv/bin/python agent_cli.py
