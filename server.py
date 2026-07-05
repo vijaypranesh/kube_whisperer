@@ -312,15 +312,17 @@ async def handle_call_tool(
         elif name == "deploy_yaml":
             if not arguments.get("yaml_path"):
                 raise ValueError("Missing or empty yaml_path.")
-            k8s_client = client.ApiClient()
-            target_ns = arguments.get("namespace")
             
+            target_ns = arguments.get("namespace")
+            cmd = ["kubectl", "apply", "-f", arguments["yaml_path"]]
             if target_ns:
-                utils.create_from_yaml(k8s_client, arguments["yaml_path"], namespace=target_ns)
-                return [types.TextContent(type="text", text=f"Resources from {arguments['yaml_path']} deployed successfully to namespace '{target_ns}'.")]
-            else:
-                utils.create_from_yaml(k8s_client, arguments["yaml_path"])
-                return [types.TextContent(type="text", text=f"Resources from {arguments['yaml_path']} deployed successfully.")]
+                cmd.extend(["-n", target_ns])
+                
+            try:
+                proc = subprocess.run(cmd, capture_output=True, text=True, check=True)
+                return [types.TextContent(type="text", text=f"Resources from {arguments['yaml_path']} deployed successfully.\n{proc.stdout}")]
+            except subprocess.CalledProcessError as e:
+                return [types.TextContent(type="text", text=f"Failed to deploy resources from {arguments['yaml_path']}.\nExit Code: {e.returncode}\nStdout: {e.stdout}\nStderr: {e.stderr}")]
 
         elif name == "create_cluster":
             if not arguments.get("engine") or not arguments.get("cluster_name"):

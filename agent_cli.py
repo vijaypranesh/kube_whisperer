@@ -89,11 +89,13 @@ async def run_chat():
                     messages.append({"role": "user", "content": user_input})
                     
                     # Call LLM
+                    print("\n⏳ Agent is thinking...", end="", flush=True)
                     response = await client.chat.completions.create(
                         model=OLLAMA_MODEL,
                         messages=messages,
                         tools=openai_tools
                     )
+                    print("\r" + " " * 30 + "\r", end="", flush=True)
                     
                     response_message = response.choices[0].message
                     messages.append(response_message)
@@ -125,11 +127,13 @@ async def run_chat():
                             })
                             
                         # Call LLM again with the tool results
+                        print("\n⏳ Agent is analyzing tool results...", end="", flush=True)
                         final_response = await client.chat.completions.create(
                             model=OLLAMA_MODEL,
                             messages=messages,
                             tools=openai_tools
                         )
+                        print("\r" + " " * 40 + "\r", end="", flush=True)
                         
                         final_message = final_response.choices[0].message
                         messages.append(final_message)
