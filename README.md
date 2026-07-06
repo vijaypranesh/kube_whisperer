@@ -19,6 +19,8 @@ Kube-Whisperer is an experimental, fully autonomous AI agent built on the **Mode
 
 ## 🤖 What is Kube-Whisperer?
 
+![Kube-Whisperer Infographic](./infographic.png)
+
 Managing Kubernetes can be complex and verbose. When a pod crashes, DevOps engineers typically run a series of commands (`kubectl get pods`, `kubectl describe`, `kubectl logs`) to triage the issue. 
 
 **Kube-Whisperer automates this.**
@@ -27,6 +29,8 @@ Powered by a locally running LLM (e.g., Llama 3.1) and standard Kubernetes Pytho
 ---
 
 ## 🏗️ Architecture Overview
+
+![Kube-Whisperer Architecture](./architecture.png)
 
 The project is built around the **Model Context Protocol (MCP)**, which provides a standardized way for AI models to interact with external tools and data sources.
 
